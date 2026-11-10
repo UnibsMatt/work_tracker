@@ -125,6 +125,14 @@ export default function Home() {
     } catch (err) { setError(err.message); }
   }
 
+  async function doExport(format) {
+    setError('');
+    try {
+      const { exportMonth } = await import('@/lib/exportMonth');
+      await exportMonth({ shifts, monthLabel, y: month.y, m: month.m, format });
+    } catch (e) { setError('Esportazione non riuscita: ' + e.message); }
+  }
+
   async function logout() {
     await fetch('/api/logout', { method: 'POST' });
     window.location.replace('/login');
@@ -213,7 +221,11 @@ export default function Home() {
 
         <div className="list-head">
           <span className="muted">{shifts.length} turn{shifts.length === 1 ? 'o' : 'i'}</span>
-          <button className="ghost" onClick={() => setEditing({ id: null, start: toInput(Date.now() - 4 * 3600000), end: toInput(Date.now()) })}>+ Aggiungi</button>
+          <div className="head-acts">
+            <button className="ghost" onClick={() => doExport('pdf')} aria-label="Esporta PDF">📄 PDF</button>
+            <button className="ghost" onClick={() => doExport('png')} aria-label="Esporta immagine">🖼️ Immagine</button>
+            <button className="ghost" onClick={() => setEditing({ id: null, start: toInput(Date.now() - 4 * 3600000), end: toInput(Date.now()) })}>+ Aggiungi</button>
+          </div>
         </div>
 
         {editing && (
