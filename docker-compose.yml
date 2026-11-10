@@ -11,3 +11,15 @@ services:
     volumes:
       - ./data:/app/data   # SQLite database lives here on the host
 
+  # optional Cloudflare tunnel: docker compose --profile tunnel up -d
+  # (needs CLOUDFLARE_TUNNEL_TOKEN in .env, public hostname -> http://app:3000)
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    profiles: [tunnel]
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:-}
+    depends_on:
+      app:
+        condition: service_healthy

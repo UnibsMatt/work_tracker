@@ -29,7 +29,7 @@ export default function Bunny({ mode, message }) {
   const text = said ?? message;
 
   return (
-    <div className={`bunny-stage ${mode}`} aria-label="3D barista bunny. Tap the bunny, the coffee machine or the cup.">
+    <div className={`bunny-stage ${mode}`} aria-label="Coniglietto barista 3D. Tocca il coniglietto, la macchina del caffè o la tazza.">
       <BunnyScene mode={mode} onSay={onSay} anchorRef={anchorRef} zzzRef={zzzRef} />
 
       <div className="bunny-anchor" ref={anchorRef}>
@@ -46,7 +46,7 @@ export default function Bunny({ mode, message }) {
           ))}
         </div>
       )}
-      <p className="bunny-hint">tap the bunny, machine or cup · drag to look around</p>
+      <p className="bunny-hint">tocca coniglietto, macchina o tazza · trascina per ruotare</p>
     </div>
   );
 }

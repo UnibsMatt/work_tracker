@@ -20,7 +20,7 @@ export default function Login() {
         body: JSON.stringify({ username, password }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || 'Login failed');
+      if (!res.ok) throw new Error(data.error || 'Accesso non riuscito');
       window.location.replace('/');
     } catch (err) {
       setError(err.message);
@@ -35,11 +35,11 @@ export default function Login() {
           <span className="peek">🐰</span>
           <span className="cup">☕</span>
         </div>
-        <h1>Bunny Shifts</h1>
-        <p className="sub">Clock in, clock out, count the carrots.</p>
+        <h1>Turni Coniglietto</h1>
+        <p className="sub">Entra in turno, esci dal turno, conta le carote.</p>
 
         <label>
-          Username
+          Nome utente
           <input
             autoComplete="username"
             autoCapitalize="none"
@@ -61,7 +61,7 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <button type="button" className="eye" onClick={() => setShow(!show)} aria-label={show ? 'Hide password' : 'Show password'}>
+            <button type="button" className="eye" onClick={() => setShow(!show)} aria-label={show ? 'Nascondi password' : 'Mostra password'}>
               {show ? '🙈' : '👀'}
             </button>
           </div>
@@ -69,7 +69,7 @@ export default function Login() {
 
         {error && <p className="error">{error}</p>}
 
-        <button className="big start" disabled={busy}>{busy ? 'Hopping in…' : 'Hop in 🥕'}</button>
+        <button className="big start" disabled={busy}>{busy ? 'Entro saltellando…' : 'Entra 🥕'}</button>
       </form>
     </main>
   );

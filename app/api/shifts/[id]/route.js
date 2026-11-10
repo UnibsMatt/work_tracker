@@ -7,9 +7,9 @@ export async function PATCH(req, { params }) {
   const { start_at, end_at } = await req.json().catch(() => ({}));
   const s = Number(start_at);
   const e = end_at == null ? null : Number(end_at);
-  if (!s || (e !== null && e <= s)) return json({ error: 'End must be after start' }, 400);
+  if (!s || (e !== null && e <= s)) return json({ error: 'La fine deve essere dopo l’inizio' }, 400);
   const info = getDb().prepare('UPDATE shifts SET start_at = ?, end_at = ? WHERE id = ?').run(s, e, Number(id));
-  if (!info.changes) return json({ error: 'Not found' }, 404);
+  if (!info.changes) return json({ error: 'Turno non trovato' }, 404);
   return json({ ok: true });
 }
 

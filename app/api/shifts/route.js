@@ -17,7 +17,7 @@ export async function GET(req) {
 export async function POST(req) {
   const { start_at, end_at } = await req.json().catch(() => ({}));
   const s = Number(start_at), e = Number(end_at);
-  if (!s || !e || e <= s) return json({ error: 'End must be after start' }, 400);
+  if (!s || !e || e <= s) return json({ error: 'La fine deve essere dopo l’inizio' }, 400);
   const info = getDb().prepare('INSERT INTO shifts (start_at, end_at) VALUES (?, ?)').run(s, e);
   return json({ id: info.lastInsertRowid }, 201);
 }

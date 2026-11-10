@@ -1,10 +1,10 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Bunny Shifts',
-  description: 'Clock in, clock out, count the carrots.',
+  title: 'Turni Coniglietto',
+  description: 'Entra in turno, esci dal turno, conta le carote.',
   icons: { icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🐰</text></svg>' },
-  appleWebApp: { capable: true, title: 'Bunny Shifts', statusBarStyle: 'default' },
+  appleWebApp: { capable: true, title: 'Turni Coniglietto', statusBarStyle: 'default' },
 };
 
 export const viewport = {
@@ -16,7 +16,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="it">
       <body>{children}</body>
     </html>
   );

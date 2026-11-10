@@ -37,7 +37,7 @@ const G = {
 const damp = THREE.MathUtils.damp;
 const rand = (a, b) => a + Math.random() * (b - a);
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
-const GIGGLES = ['Hehe, that tickles! 🐰', 'Boop! 👃', 'Hop hop! 🥕', 'Hey, I’m working here 😄'];
+const GIGGLES = ['Ihih, mi fai il solletico! 🐰', 'Bup! 👃', 'Hop hop! 🥕', 'Ehi, sto lavorando qui 😄'];
 
 /* Toon mesh with an "ink" outline (inverted hull), to match the old cartoon look */
 function Toon({ geo, color, outline = 1.06, castShadow = true, children, ...props }) {
@@ -89,7 +89,7 @@ const PLANS = {
 };
 
 function wander(s) {
-  if (s.cupHeld && s.fill < 0.05 && Math.random() < 0.5) return [say('Refill time! ☕'), ...refill(), walk(0.3), face(0)];
+  if (s.cupHeld && s.fill < 0.05 && Math.random() < 0.5) return [say('Ora di un altro caffè! ☕'), ...refill(), walk(0.3), face(0)];
   const steps = [walk(rand(-0.05, 1.15)), face(0), wait(rand(1.2, 3))];
   if (s.cupHeld && s.fill > 0.1 && Math.random() < 0.3) steps.push(sip(0.2));
   else if (Math.random() < 0.15) steps.push(hop(1));
@@ -161,7 +161,7 @@ function World({ mode, drag, onSay, anchorRef, zzzRef }) {
   const clickOk = (e) => { e.stopPropagation(); return e.delta < 8; };
   const run = (steps) => {
     const st = s.current;
-    if (st.lock) { onSay('One sec, I’m on it! 🐇💨'); return; }
+    if (st.lock) { onSay('Un attimo, ci sto pensando io! 🐇💨'); return; }
     st.queue = st.mode === 'idle' ? [...steps, ...goNap()] : steps;
     st.step = null;
     st.lock = true;
@@ -171,7 +171,7 @@ function World({ mode, drag, onSay, anchorRef, zzzRef }) {
     if (!clickOk(e)) return;
     const st = s.current;
     if (st.lock) { onSay(pick(GIGGLES)); return; }
-    if (st.sleep) { st.queue = [set({ peek: true }), say('5 more minutes… 😴'), wait(1.8), set({ peek: false })]; st.step = null; st.lock = true; return; }
+    if (st.sleep) { st.queue = [set({ peek: true }), say('Ancora 5 minuti… 😴'), wait(1.8), set({ peek: false })]; st.step = null; st.lock = true; return; }
     run([say(pick(GIGGLES)), hop(2)]);
   };
   const clickMachine = (e) => {
@@ -179,7 +179,7 @@ function World({ mode, drag, onSay, anchorRef, zzzRef }) {
     s.current.glow = 1;
     const st = s.current;
     run([
-      say(st.sleep ? 'Coffee?! 👀' : 'One fresh espresso! ☕'),
+      say(st.sleep ? 'Caffè?! 👀' : 'Un espresso fresco! ☕'),
       ...(st.sleep ? wakeUp() : []),
       ...refill(), walk(0.3), face(0), sip(0.3),
     ]);
@@ -188,12 +188,12 @@ function World({ mode, drag, onSay, anchorRef, zzzRef }) {
     if (!clickOk(e)) return;
     const st = s.current;
     if (st.cupHeld) {
-      run(st.fill > 0.05 ? [sip(0.3), say('Ahh, perfect ☕')] : [say('Empty! Refill time 🙈'), ...refill(), walk(0.3), face(0)]);
+      run(st.fill > 0.05 ? [sip(0.3), say('Ahh, perfetto ☕')] : [say('Vuota! Ne faccio un altro 🙈'), ...refill(), walk(0.3), face(0)]);
     } else {
       run([
-        say('My coffee! ☕'), ...(st.sleep ? wakeUp() : []),
+        say('Il mio caffè! ☕'), ...(st.sleep ? wakeUp() : []),
         walk(BREW_X), face(FACE_MACHINE), grab, walk(0.3), face(0),
-        later((x) => (x.fill > 0.05 ? [sip(0.3)] : [say('Hmm… empty. Click the machine!')])),
+        later((x) => (x.fill > 0.05 ? [sip(0.3)] : [say('Mmm… vuota. Tocca la macchina!')])),
       ]);
     }
   };
@@ -360,7 +360,7 @@ function World({ mode, drag, onSay, anchorRef, zzzRef }) {
     r.machine.current.position.x = MX + (brewing ? Math.sin(time * 60) * 0.004 : 0);
     r.button.current.material.emissiveIntensity = 0.2 + st.glow * 1.5 + (brewing ? 0.8 : 0);
     r.stream.current.visible = brewing;
-    r.stream.current.scale.x = r.stream.current.scale.z = brewing ? 1 + Math.sin(time * 30) * 0.15 : 1;
+    r.stream.current.scale.x = r.stream.current.scale.z = 0.012 * (1 + Math.sin(time * 30) * 0.15);
     r.needle.current.rotation.z = damp(r.needle.current.rotation.z, brewing ? -1.6 : 0.6, 3, dt);
     r.puff.current.children.forEach((p, i) => {
       const t = (time * 0.8 + i / 4) % 1;

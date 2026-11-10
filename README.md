@@ -48,6 +48,18 @@ docker compose --profile tunnel up -d
 
 Everything is in `./data/`. Copy that folder (ideally with the app stopped) to back up.
 
+## Seeding past shifts
+
+`scripts/seed_shifts.py` adds the October/November 2026 hours (each shift starts at 08:00 Italian time).
+Days that already have a shift are skipped, and a backup of the database is made first.
+
+```sh
+python3 scripts/seed_shifts.py --dry-run   # preview
+python3 scripts/seed_shifts.py             # write to ./data/shifts.db
+```
+
+Add more days by editing `SHIFTS` at the top of the script.
+
 ## Useful commands
 
 ```sh

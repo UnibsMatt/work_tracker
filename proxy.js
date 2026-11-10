@@ -3,14 +3,14 @@ import { COOKIE, verifyToken } from '@/lib/auth';
 
 const PUBLIC = ['/login', '/api/login'];
 
-export async function middleware(req) {
+export async function proxy(req) {
   const { pathname } = req.nextUrl;
   if (PUBLIC.includes(pathname)) return NextResponse.next();
 
   if (await verifyToken(req.cookies.get(COOKIE)?.value)) return NextResponse.next();
 
   if (pathname.startsWith('/api/')) {
-    return Response.json({ error: 'Not logged in' }, { status: 401 });
+    return Response.json({ error: 'Accesso non effettuato' }, { status: 401 });
   }
   // use the public host/protocol (Cloudflare tunnel sends these) so we don't
   // redirect to the internal http://localhost address
