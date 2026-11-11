@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Bunny from '@/components/Bunny';
 import { computePay, paidMs, roundTime } from '@/lib/pay';
+import { randomLovePhrase } from '@/lib/lovePhrases';
 
 const START_LINES = ['Prepariamo un po’ di soldi! ☕', 'Grembiule su, orecchie dritte! 🐰', 'Modalità espresso: ON ⚡', 'Il tavolo 4 vuole carote! 🥕'];
 const WORK_LINES = ['Hop hop, servo ai tavoli…', 'Cappuccino per il tavolo 7!', 'Le mance nel barattolo delle carote 🥕', 'Sorridi, sei in turno 😄'];
@@ -52,6 +53,7 @@ export default function Home() {
   const [busy, setBusy] = useState(false);
   const [editing, setEditing] = useState(null); // {id|null, start, end}
   const [error, setError] = useState('');
+  const [love, setLove] = useState(null); // love phrase shown after a shift ends
 
   const load = useCallback(async () => {
     const from = new Date(month.y, month.m, 1).getTime();
@@ -107,6 +109,7 @@ export default function Home() {
       await api('/api/shifts/stop', { method: 'POST' });
       if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
       setMode('stopping'); setMessage(pick(STOP_LINES));
+      setLove((prev) => randomLovePhrase(prev));
       setTimeout(() => { setMode('idle'); setMessage(pick(IDLE_LINES)); }, 3500);
       await load();
     } catch (e) { setError(e.message); }
@@ -263,6 +266,16 @@ export default function Home() {
           ))}
         </ul>
       </details>
+
+      {love && (
+        <div className="love-overlay" onClick={() => setLove(null)} role="dialog" aria-modal="true" aria-label="Messaggio d'amore">
+          <div className="love-card" onClick={(e) => e.stopPropagation()}>
+            <div className="love-hearts" aria-hidden>💕</div>
+            <p className="love-text">{love}</p>
+            <button className="small love-btn" onClick={() => setLove(null)}>Grazie amore ❤️</button>
+          </div>
+        </div>
+      )}
 
       <footer className="foot">Fatto con 🥕 per la cameriera più brava della città</footer>
     </main>

@@ -191,3 +191,29 @@ h2 { margin: 0; font-size: 1.15rem; }
 @keyframes peek { 0%, 100% { transform: translateY(8px) rotate(-4deg); } 50% { transform: translateY(-6px) rotate(4deg); } }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
 .clocked { color: var(--muted); font-size: 0.75rem; opacity: 0.8; }
+
+/* ---------- love phrase (shown when a shift ends) ---------- */
+.love-overlay {
+  position: fixed; inset: 0; z-index: 50;
+  display: grid; place-items: center; padding: 16px;
+  background: rgba(59, 42, 32, 0.35);
+  animation: love-fade 0.3s ease-out;
+}
+.love-card {
+  width: 100%; max-width: 380px; text-align: center;
+  background: #fff; border-radius: 22px; padding: 24px 20px 20px;
+  border: 3px solid var(--pink);
+  box-shadow: 0 12px 36px rgba(107, 66, 38, 0.25);
+  animation: love-pop 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) 0.6s both;
+}
+.love-hearts { font-size: 2.4rem; animation: love-beat 1.2s ease-in-out infinite; }
+.love-text { margin: 10px 0 18px; font-size: 1.25rem; font-weight: 700; line-height: 1.4; font-style: italic; color: var(--coffee); }
+.love-btn { background: var(--pink); color: var(--ink); }
+
+@keyframes love-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes love-pop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes love-beat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.2); } 30% { transform: scale(1); } 45% { transform: scale(1.12); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .love-overlay, .love-card, .love-hearts { animation: none !important; }
+}

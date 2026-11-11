@@ -1,0 +1,18 @@
+# Dev/test stack: runs next to production without touching it.
+#   docker compose -p work-tracker-dev -f docker-compose.dev.yml up -d --build
+# Own container, image, port (3334) and database copy (./data-dev).
+name: work-tracker-dev
+
+services:
+  app:
+    build: .
+    image: work-tracker-dev-app
+    container_name: work-tracker-dev
+    restart: "no"
+    env_file: .env
+    environment:
+      DB_PATH: /app/data/shifts.db
+    ports:
+      - "3334:3000"
+    volumes:
+      - ./data-dev:/app/data   # copy of the production DB, safe to mess with
